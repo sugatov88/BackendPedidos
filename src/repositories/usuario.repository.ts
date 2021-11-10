@@ -1,7 +1,7 @@
-import {inject, Getter} from '@loopback/core';
-import {DefaultCrudRepository, repository, HasManyRepositoryFactory} from '@loopback/repository';
+import {Getter, inject} from '@loopback/core';
+import {DefaultCrudRepository, HasManyRepositoryFactory, repository} from '@loopback/repository';
 import {MongodbDataSource} from '../datasources';
-import {Usuario, UsuarioRelations, Pedido} from '../models';
+import {Pedido, Usuario, UsuarioRelations} from '../models';
 import {PedidoRepository} from './pedido.repository';
 
 export class UsuarioRepository extends DefaultCrudRepository<
