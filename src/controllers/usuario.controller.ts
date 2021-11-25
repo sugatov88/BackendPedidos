@@ -1,3 +1,4 @@
+import {service} from '@loopback/core';
 import {
   Count,
   CountSchema,
@@ -19,12 +20,16 @@ import {
 } from '@loopback/rest';
 import {Usuario} from '../models';
 import {UsuarioRepository} from '../repositories';
+import {AutenticacionService} from '../services';
 
 export class UsuarioController {
   constructor(
     @repository(UsuarioRepository)
     public usuarioRepository : UsuarioRepository,
-  ) {}
+    @service(AutenticacionService)
+    public servicioAutenticacion: AutenticacionService
+    ) {}
+
 
   @post('/usuarios')
   @response(200, {
@@ -44,7 +49,12 @@ export class UsuarioController {
     })
     usuario: Omit<Usuario, ' id'>,
   ): Promise<Usuario> {
-    return this.usuarioRepository.create(usuario);
+
+    let clave= this.servicioAutenticacion.GenerarClave();
+    let clavecifrada = this.servicioAutenticacion.CifrarClave(clave);
+    usuario.clave=clavecifrada;
+
+   let p=  await  this.usuarioRepository.create(usuario);
   }
 
   @get('/usuarios/count')
