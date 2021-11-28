@@ -55,7 +55,18 @@ export class UsuarioController {
     usuario.clave=clavecifrada;
 
    let p=  await  this.usuarioRepository.create(usuario);
+
+    //Notificacion a usuario
+    let destino= usuario.correo;
+    let asunto="Registro prueba";
+    let contenido = `Hola mensaje para ${usuario.nombres}, su usuario es: ${usuario.correo} y su contrasela es \${clavecifrada}`;
+    fetch(`http://127.0.0.1:5000/envio-correo/enviar-correo?correo_destino=${destino}&asunto=${asunto}&contenido=${contenido}`)
+    .then((data:any)=>{
+    console.log(data);
+    })
+    return p;
   }
+
 
   @get('/usuarios/count')
   @response(200, {
