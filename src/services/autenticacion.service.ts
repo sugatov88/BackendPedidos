@@ -48,5 +48,12 @@ export class AutenticacionService {
     Llaves.claveJWT);
     return token;
   }
-
+  validarTokenJWT(token: string){
+    try{
+      let datos=jwt.verify(token,Llaves.claveJWT);
+      return datos;
+      }catch{
+        return false;
+    }
+  }
 }

@@ -1,3 +1,4 @@
+import {Credenciales } from './../models/credenciales.model';
 import {service} from '@loopback/core';
 import {
   Count,
@@ -32,6 +33,34 @@ export class UsuarioController {
     public servicioAutenticacion: AutenticacionService
     ) {}
 
+    @post("/identificarUsuario",{
+      responses:{
+        '200':{
+          description:"Identificacion de Usuarios"
+        }
+    }
+    } )
+
+    async identificarUsuario(
+      @requestBody() credenciales: Credenciales
+
+    ){
+      let p = await this.servicioAutenticacion.IdentificarUsuario(credenciales.usuario,credenciales.clave);
+      if(p){
+        let token = this.servicioAutenticacion.GenerarTokenJWT(p);
+        return{
+          datos: {
+            nombre: p.nombres,
+            correo: p.correo,
+            id: p.id
+          },
+          tk:token
+        }
+      }else {
+        throw new HttpErrors[401]("Datos Invalidos");
+      }
+
+    }
 
   @post('/usuarios')
   @response(200, {
