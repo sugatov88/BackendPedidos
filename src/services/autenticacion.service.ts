@@ -1,9 +1,12 @@
 import {injectable, /* inject, */ BindingScope} from '@loopback/core';
 import { repository } from '@loopback/repository';
+import {Llaves} from '../config/llaves';
+import { Usuario } from '../models'
 import {UsuarioRepository} from '../repositories';
 
 const generator =require("password-generator");
 const cryptoJS = require ("crypto-js");
+const jwt = require("jsonwebtoken");
 
 @injectable({scope: BindingScope.TRANSIENT})
 export class AutenticacionService {
@@ -36,8 +39,14 @@ export class AutenticacionService {
     }
 
   }
-  GenerarTokenJWT(){
-
+  GenerarTokenJWT(usuario:Usuario){
+    let token = jwt.sign({
+     id: usuario.id,
+     correo:usuario.correo,
+     nombre: usuario.nombres + " " +usuario.apellidos
+    },
+    Llaves.claveJWT);
+    return token;
   }
 
 }
