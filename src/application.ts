@@ -9,6 +9,8 @@ import {RestApplication} from '@loopback/rest';
 import {ServiceMixin} from '@loopback/service-proxy';
 import path from 'path';
 import {MySequence} from './sequence';
+import {AuthenticationComponent, registerAuthenticationStrategy} from '@loopback/authentication';
+import {EstrategiaAdministrador} from './Strategies/admin.strategy';
 
 export {ApplicationConfig};
 
@@ -32,7 +34,7 @@ export class App extends BootMixin(
 
     this.projectRoot = __dirname;
     // Customize @loopback/boot Booter Conventions here
-    this.bootOptions = {
+    this.bootOptions  = {
       controllers: {
         // Customize ControllerBooter Conventions here
         dirs: ['controllers'],
@@ -40,5 +42,8 @@ export class App extends BootMixin(
         nested: true,
       },
     };
+    registerAuthenticationStrategy(this, EstrategiaAdministrador);
+    this.component(AuthenticationComponent);
+
   }
 }

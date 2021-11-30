@@ -18,11 +18,13 @@ import {
   del,
   requestBody,
   response,
+  HttpErrors,
 } from '@loopback/rest';
 import {Llaves} from '../config/llaves';
 import {Usuario} from '../models';
 import {UsuarioRepository} from '../repositories';
 import {AutenticacionService} from '../services';
+import {authenticate} from '@loopback/authentication';
 const fetch =require('node-fetch');
 
 export class UsuarioController {
@@ -57,7 +59,7 @@ export class UsuarioController {
           tk:token
         }
       }else {
-        throw new HttpErrors[401]("Datos Invalidos");
+        throw new  HttpErrors[401]("Datos Invalidos Pilo ");
       }
 
     }
@@ -92,7 +94,7 @@ export class UsuarioController {
     let asunto="Registro prueba";
     let contenido = `Hola mensaje para ${usuario.nombres}, su usuario es ${usuario.correo} y su contraseña es ${clavecifrada}`;
 
-    fetch(`${Llaves.usrServicioNotificaciones}/envio-correo?correo_destino=${destino}&asunto=${asunto}&contenido=${contenido}`)
+    fetch(`${Llaves.usrServicioNotificaciones}/envio_correo?correo_destino=${destino}&asunto=${asunto}&contenido=${contenido}`)
     .then((data:any)=>{
     console.log(data);
     })
