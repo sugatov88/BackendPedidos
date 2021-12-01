@@ -5,6 +5,7 @@ const config = {
   name: 'mongodb',
   connector: 'mongodb',
   url: 'mongodb+srv://AngiePilo:piloenbici22@clusterc4g41.qrab0.mongodb.net/Backpedidosgr41?retryWrites=true&w=majority',
+  url: 'mongodb+srv://sugatov88:<password>@ciclo4cluster.mbfzy.mongodb.net/test',
   host: '',
   port: 0,
   user: '',
